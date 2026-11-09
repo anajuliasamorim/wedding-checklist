@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist do Sim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"></text></svg>
+    
+</head>
+
+<body>
+    <main class="container">
+        <section class="card">
+            <!-- <img id="banner" src="img/casamento.jpg"> -->
+            
+            <h1>Checklist do Sim </h1>
+            <p class="descricao"> Organize os preparativos do seu casamento.
+                Cadastre tarefas, registre informações
+                importantes e acompanhe cada etapa até o grande dia. </p>
+
+
+            <section class="minhas-tarefas">
+                <h2>Minhas Tarefas</h2>
+                <form id="form-tarefa">
+                    <input type="text" id="nova-tarefa" placeholder="Digite uma tarefa" required>
+                    <button type="submit"> Adicionar </button>
+                </form>
+                <button type="button" id="btn-desfazer"> Desfazer última tarefa </button>
+            </section>
+
+            <div class="colunas">
+                <!-- Pendentes -->
+                <section class="coluna">
+                    <h2> Pendentes <span id="contador-pendentes">0</span> </h2>
+                    <ul id="lista-pendentes"></ul>
+                </section>
+                <!-- Concluídas -->
+                <section class="coluna">
+                    <h2> Concluídas <span id="contador-concluidas">0</span> </h2>
+                    <ul id="lista-concluidas"></ul>
+                </section>
+            </div>
+
+            <section class="data-casamento">
+                <h2>Quando será o grande dia?</h2>
+                <label for="data-casamento">Escolha a data:</label>
+                <input type="date" id="data-casamento">
+            </section>
+
+            <section class="cronograma">
+                <h2>Cronograma de Preparativos</h2>
+                <p> Confira as sugestões do que fazer em cada etapa da organização do seu casamento.</p>
+                <ul id="lista-cronograma"></ul>
+            </section>
+        </section>
+    </main>
+
+    <div id="popup" class="popup">
+        <div class="popup-conteudo">
+            <h2 id="titulo-popup"> Informações da tarefa </h2>
+            <label for="valor">Valor (R$):</label>
+            <input type="number" id="valor" min="0" step="0.01" placeholder="Ex: 1500">
+            <label for="pessoa"> Pessoa ou empresa: </label>
+            <input type="text" id="pessoa" placeholder="Digite o nome">
+            <label for="observacoes"> Observações: </label>
+            <textarea id="observacoes" placeholder="Digite informações importantes"></textarea>
+
+            <div class="botoes-popup">
+                <button type="button" id="btn-salvar">Salvar </button>
+                <button type="button" id="btn-fechar"> Fechar </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
