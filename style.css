@@ -4,12 +4,24 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f8f1ed;
     color: #5c4540;
+
+}
+
+/* Somente a imagem de fundo */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-image: url("img/fundo.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-
+    filter: blur(3px);
+    transform: scale(1.05);
+    z-index: -1;
 }
 
 /* Centraliza o conteúdo */
