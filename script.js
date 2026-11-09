@@ -1,6 +1,6 @@
 
-// Array que guarda as tarefas cadastradas
-let tarefas = [];
+// Array que guarda as tarefas cadastradas e recupera as tarefas salvas no navegador
+let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
 // Índice da tarefa aberta no pop-up
 let indiceSelecionado = -1;
@@ -26,6 +26,17 @@ const btnFechar = document.querySelector("#btn-fechar");
 // Elementos do cronograma
 const campoData = document.querySelector("#data-casamento");
 const listaCronograma = document.querySelector("#lista-cronograma");
+
+
+// Função que salva as tarefas no navegador
+function salvarTarefas() {
+
+    localStorage.setItem(
+        "tarefas",
+        JSON.stringify(tarefas)
+    );
+
+}
 
 // ADICIONAR TAREFAS
 function adicionarTarefa(nome) {
@@ -91,6 +102,7 @@ btnSalvar.addEventListener("click", function () {
     tarefa.valor = campoValor.value;
     tarefa.pessoa = campoPessoa.value;
     tarefa.observacoes = campoObservacoes.value;
+    salvarTarefas();
     alert("Informações salvas!");
     fecharPopup();
 });
@@ -105,7 +117,10 @@ btnFechar.addEventListener("click", function () {
 
 function mostrarTarefas() {
 
-    // Limpa as listas
+    // Salva as informações atualizadas
+    salvarTarefas();
+
+    // Limpa as listas antes de atualizar
     listaPendentes.innerHTML = "";
     listaConcluidas.innerHTML = "";
 
@@ -347,8 +362,14 @@ function mostrarCronograma() {
     });
 }
 
-// Atualiza quando a data muda
-campoData.addEventListener("change", function () {
+// Recupera a data salva anteriormente
+campoData.value = localStorage.getItem("dataCasamento") || "";
+
+// Quando a data mudar, salva no navegador
+campoData.addEventListener("change", function() {
+
+    localStorage.setItem("dataCasamento", campoData.value);
+
     mostrarCronograma();
 });
 
