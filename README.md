@@ -1,1 +1,0 @@
-# wedding-vendors-checklist
