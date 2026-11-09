@@ -83,26 +83,6 @@ wedding-checklist/
     └── fundo.jpg
 ```
 
-## Como executar
-
-**1. Clone o repositório:**
-
-```bash
-git clone https://github.com/anajuliasamorim/wedding-checklist.git
-```
-
-**2. Acesse a pasta:**
-
-```bash
-cd wedding-checklist
-```
-
-**3. Abra o projeto no Visual Studio Code.**
-
-**4. Execute o arquivo `index.html` diretamente no navegador ou utilize a extensão Live Server.**
-
-Não é necessário instalar dependências.
-
 ## Acessar o site
 
 O projeto também pode ser disponibilizado pelo GitHub Pages:
