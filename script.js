@@ -1,6 +1,15 @@
 
 // Array que guarda as tarefas cadastradas e recupera as tarefas salvas no navegador
-let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+let tarefas = [];
+
+try {
+    const dadosSalvos = JSON.parse(localStorage.getItem("tarefas"));
+    if (Array.isArray(dadosSalvos)) {
+        tarefas = dadosSalvos;
+    }
+} catch (erro) {
+    console.error("Não foi possível ler as tarefas salvas:", erro);
+}
 
 // Índice da tarefa aberta no pop-up
 let indiceSelecionado = -1;
@@ -14,6 +23,9 @@ const contadorPendentes = document.querySelector("#contador-pendentes");
 const contadorConcluidas = document.querySelector("#contador-concluidas");
 const btnDesfazer = document.querySelector("#btn-desfazer");
 
+// Identifica o conteúdo principal da página
+const conteudoPrincipal = document.querySelector("main");
+
 // Elementos do pop-up
 const popup = document.querySelector("#popup");
 const tituloPopup = document.querySelector("#titulo-popup");
@@ -23,14 +35,24 @@ const campoObservacoes = document.querySelector("#observacoes");
 const btnSalvar = document.querySelector("#btn-salvar");
 const btnFechar = document.querySelector("#btn-fechar");
 
+// Guarda o botão que abriu o pop-up
+let botaoAnterior = null;
+
 // Elementos do cronograma
 const campoData = document.querySelector("#data-casamento");
 const listaCronograma = document.querySelector("#lista-cronograma");
+const mensagemStatus = document.querySelector("#mensagem-status");
 
+// Comunica operações a quem utiliza leitor de tela.
+function anunciar(mensagem) {
+    mensagemStatus.textContent = "";
+    requestAnimationFrame(function () {
+        mensagemStatus.textContent = mensagem;
+    });
+}
 
 // Função que salva as tarefas no navegador
 function salvarTarefas() {
-
     localStorage.setItem(
         "tarefas",
         JSON.stringify(tarefas)
@@ -58,37 +80,62 @@ function adicionarTarefa(nome) {
     // Adiciona no final do array
     tarefas.push(tarefa);
 
-    // Atualiza a tela
+    salvarTarefas();
     mostrarTarefas();
+    anunciar("Tarefa adicionada: " + tarefa.nome);
+
 }
 
 // Evento do formulário
 formulario.addEventListener("submit", function (evento) {
-    // Impede que a página recarregue
     evento.preventDefault();
-    // Cadastra a tarefa
-    adicionarTarefa(campoTarefa.value);
+    const nome = campoTarefa.value.trim();
+    if (nome === "") {
+        anunciar("Digite uma tarefa antes de adicionar.");
+        campoTarefa.focus();
+        return;
+    }
+
+    adicionarTarefa(nome);
     campoTarefa.value = "";
 });
 
 // POP-UP DAS TAREFAS
 
 // Abre as informações da tarefa
-function abrirPopup(indice) {
+function abrirPopup(indice, botao) {
     indiceSelecionado = indice;
-    // Busca a tarefa
     const tarefa = tarefas[indice];
-    // Preenche os campos
-    tituloPopup.textContent = tarefa.nome;
+    if (!tarefa) return;
+
+    botaoAnterior = botao;
+
+    tituloPopup.textContent = "Informações da tarefa: " + tarefa.nome;
     campoValor.value = tarefa.valor;
     campoPessoa.value = tarefa.pessoa;
     campoObservacoes.value = tarefa.observacoes;
-    popup.style.display = "flex";
+    popup.hidden = false;
+    conteudoPrincipal.inert = true;
+
+    // Direciona o foco ao primeiro campo.
+    campoValor.focus();
 }
 
+
+// Fecha o pop-up e restaura o foco
 function fecharPopup() {
-    popup.style.display = "none";
+    popup.hidden = true;
+
+    // Libera a interação com a página principal
+    conteudoPrincipal.inert = false;
     indiceSelecionado = -1;
+
+    // Devolve o foco ao botão que abriu o pop-up
+    if (botaoAnterior && botaoAnterior.isConnected) {
+        botaoAnterior.focus();
+    }
+
+    botaoAnterior = null;
 }
 
 // Salva as informações
@@ -103,8 +150,8 @@ btnSalvar.addEventListener("click", function () {
     tarefa.pessoa = campoPessoa.value;
     tarefa.observacoes = campoObservacoes.value;
     salvarTarefas();
-    alert("Informações salvas!");
     fecharPopup();
+    anunciar("Informações da tarefa salvas com sucesso!");
 });
 
 // Botão fechar
@@ -112,13 +159,38 @@ btnFechar.addEventListener("click", function () {
     fecharPopup();
 });
 
+// Mantém a navegação dentro do pop-up.
+popup.addEventListener("keydown", function (evento) {
+    // Fecha o pop-up ao pressionar Esc.
+    if (evento.key === "Escape") {
+        evento.preventDefault();
+        fecharPopup();
+        return;
+    }
+
+    if (evento.key !== "Tab") return;
+    const controles = Array.from(
+        popup.querySelectorAll("input, textarea, button")
+    ).filter(function (elemento) {
+        return !elemento.disabled && !elemento.hidden;
+    });
+
+    const primeiro = controles[0];
+    const ultimo = controles[controles.length - 1];
+
+    if (evento.shiftKey && document.activeElement === primeiro) {
+        evento.preventDefault();
+        ultimo.focus();
+    } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault();
+        primeiro.focus();
+    }
+});
+
 
 // MOSTRAR TAREFAS
 
 function mostrarTarefas() {
-
-    // Salva as informações atualizadas
-    salvarTarefas();
 
     // Limpa as listas antes de atualizar
     listaPendentes.innerHTML = "";
@@ -137,33 +209,85 @@ function mostrarTarefas() {
         check.type = "checkbox";
         check.checked = tarefa.concluida;
 
+        // Identifica o checkbox para leitores de tela
+        check.dataset.indice = indice;
+        check.setAttribute(
+            "aria-label",
+            (tarefa.concluida
+                ? "Marcar como pendente: "
+                : "Marcar como concluída: ") + tarefa.nome
+        );
+
         // Cria o texto
-        const texto = document.createElement("span");
+        const texto = document.createElement("button");
+
+        texto.type = "button";
         texto.textContent = tarefa.nome;
         texto.className = "nome-tarefa";
-        texto.title = "Clique para ver os detalhes";
+        texto.dataset.indice = indice;
+
+        texto.setAttribute(
+            "aria-label",
+            "Ver detalhes da tarefa: " + tarefa.nome
+        );
+        texto.addEventListener("click", function () {
+            abrirPopup(indice, texto);
+        });
 
         // Cria o botão de excluir
         const btnExcluir = document.createElement("button");
-        btnExcluir.textContent = "X";
+        btnExcluir.type = "button";
+        btnExcluir.textContent = "×";
         btnExcluir.className = "btn-excluir";
 
-        // Abre o pop-up
-        texto.addEventListener("click", function () {
-            abrirPopup(indice);
-        });
+        // Identifica a tarefa que será excluída
+        btnExcluir.setAttribute(
+            "aria-label",
+            "Excluir tarefa: " + tarefa.nome
+        );
 
-        // Marca como concluída
+        // Marca ou desmarca uma tarefa
         check.addEventListener("change", function () {
             tarefa.concluida = check.checked;
+
+            salvarTarefas();
             mostrarTarefas();
+
+            // Recupera o foco após reconstruir as listas
+            const novoCheck = document.querySelector(
+                'input[type="checkbox"][data-indice="' + indice + '"]'
+            );
+            if (novoCheck) {
+                novoCheck.focus();
+            }
+            anunciar(
+                tarefa.concluida
+                    ? "Tarefa concluída: " + tarefa.nome
+                    : "Tarefa pendente: " + tarefa.nome
+            );
         });
 
-        // Exclui a tarefa
+        // Exclui a tarefa selecionada
         btnExcluir.addEventListener("click", function () {
-            // Remove pelo índice
+            const nomeRemovido = tarefa.nome;
             tarefas.splice(indice, 1);
+
+            salvarTarefas();
             mostrarTarefas();
+
+            // Direciona o foco para outra tarefa
+            const indiceSeguinte = Math.min(indice, tarefas.length - 1);
+            const proximo = document.querySelector(
+                '.nome-tarefa[data-indice="' + indiceSeguinte + '"]'
+            );
+
+            if (proximo) {
+                proximo.focus();
+            } else {
+                campoTarefa.focus();
+            }
+
+            anunciar("Tarefa excluída: " + nomeRemovido);
         });
 
         // Adiciona os elementos a lista
@@ -190,11 +314,12 @@ function mostrarTarefas() {
 
 btnDesfazer.addEventListener("click", function () {
     if (tarefas.length > 0) {
-        // Remove o último elemento
-        tarefas.pop();
+        const removida = tarefas.pop();
+        salvarTarefas();
         mostrarTarefas();
+        anunciar("Última tarefa removida: " + removida.nome);
     } else {
-        alert("Não existem tarefas para remover!");
+        anunciar("Não existem tarefas para remover!");
     }
 });
 
@@ -324,7 +449,7 @@ function calcularData(data, etapa) {
 // MOSTRAR CRONOGRAMA
 
 function mostrarCronograma() {
-    // Limpa a lista ordenada
+    // // Limpa o cronograma antes de apresentar as etapas
     listaCronograma.innerHTML = "";
     // Verifica se a data foi preenchida
     if (campoData.value === "") {
@@ -357,7 +482,7 @@ function mostrarCronograma() {
         itemEtapa.appendChild(titulo);
         itemEtapa.appendChild(data);
         itemEtapa.appendChild(lista);
-        // Adiciona a etapa ao ol
+        // Adiciona a etapa à lista do cronograma
         listaCronograma.appendChild(itemEtapa);
     });
 }
@@ -366,7 +491,7 @@ function mostrarCronograma() {
 campoData.value = localStorage.getItem("dataCasamento") || "";
 
 // Quando a data mudar, salva no navegador
-campoData.addEventListener("change", function() {
+campoData.addEventListener("change", function () {
 
     localStorage.setItem("dataCasamento", campoData.value);
 

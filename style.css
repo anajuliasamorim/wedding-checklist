@@ -53,7 +53,7 @@ body::before {
 
 /* Títulos */
 h1 {
-    color: #a67575;
+    color: #815050;
 }
 
 h2 {
@@ -124,8 +124,8 @@ h2 {
 
 /* Data de cada etapa */
 .data-etapa {
-    color: #8a7770;
-    font-size: 14px;
+    color: #5c4540;
+    font-size: 1rem;
 }
 
 /* Atividades dentro de cada etapa */
@@ -147,9 +147,16 @@ h2 {
 
 /* Formulário */
 #form-tarefa {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
     margin-bottom: 15px;
+    text-align: left;
+}
+
+#form-tarefa label {
+    grid-column: 1 / -1;
+    font-weight: bold;
 }
 
 /* Campos */
@@ -167,11 +174,12 @@ input[type="text"], input[type="number"], textarea {
 
 /* Botões */
 button {
-    background-color: #b78686;
+    background-color: #815050;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 12px 16px;
     border-radius: 6px;
+    font: inherit;
     cursor: pointer;
 }
 
@@ -254,7 +262,7 @@ button:hover {
 
 /* Fundo do pop-up */
 .popup {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -297,6 +305,9 @@ button:hover {
 .popup-conteudo textarea {
     height: 90px;
 }
+.popup[hidden] {
+    display: none;
+}
 
 /* Botões do pop-up */
 .botoes-popup {
@@ -321,4 +332,12 @@ button:hover {
 .card {
     padding: 15px;
 }
+}
+
+/* Destaque forte e visível ao navegar com o teclado */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #6b3e85;
+    outline-offset: 3px;
 }
