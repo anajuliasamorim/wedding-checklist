@@ -252,13 +252,12 @@ button:hover {
 /* Botão para editar informações */
 .btn-editar {
     background-color: #815050;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
+    color: white;
     min-width: 44px;
     min-height: 44px;
-    padding: 8px;
-    font-size: 22px;
+    padding: 4px;
+    border-radius: 6px;
+    font-size: 16px; 
     cursor: pointer;
     flex-shrink: 0;
 }
