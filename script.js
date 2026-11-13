@@ -218,15 +218,13 @@ function mostrarTarefas() {
                 : "Marcar como concluída: ") + tarefa.nome
         );
 
-        // Cria o texto
+        // Cria o nome da tarefa como texto não clicável
         const texto = document.createElement("span");
-
         texto.textContent = tarefa.nome;
         texto.className = "nome-tarefa";
 
-        // Cria o botão para editar informações da tarefa
+        // Cria o botão de editar
         const btnEditar = document.createElement("button");
-
         btnEditar.type = "button";
         btnEditar.textContent = "✎";
         btnEditar.className = "btn-editar";
@@ -238,7 +236,7 @@ function mostrarTarefas() {
             "Editar informações da tarefa: " + tarefa.nome
         );
 
-        // Abre o pop-up de informações
+        // Abre o pop-up ao clicar no lápis
         btnEditar.addEventListener("click", function () {
             abrirPopup(indice, btnEditar);
         });
@@ -249,7 +247,6 @@ function mostrarTarefas() {
         btnExcluir.textContent = "×";
         btnExcluir.className = "btn-excluir";
 
-        // Identifica a tarefa que será excluída
         btnExcluir.setAttribute(
             "aria-label",
             "Excluir tarefa: " + tarefa.nome

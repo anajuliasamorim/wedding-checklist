@@ -145,7 +145,8 @@ h2 {
     padding-top: 20px;
 }
 
-/* Formulário */
+
+/* Organização do formulário de tarefas */
 #form-tarefa {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -154,10 +155,13 @@ h2 {
     text-align: left;
 }
 
+/* Posiciona o título acima do campo */
 #form-tarefa label {
     grid-column: 1 / -1;
     font-weight: bold;
+    color: #5c4540;
 }
+
 
 /* Campos */
 input[type="text"], input[type="number"], textarea {
@@ -170,6 +174,8 @@ input[type="text"], input[type="number"], textarea {
 #nova-tarefa {
     flex: 1;
     min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Botões */
