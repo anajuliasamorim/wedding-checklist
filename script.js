@@ -218,10 +218,49 @@ function mostrarTarefas() {
                 : "Marcar como concluída: ") + tarefa.nome
         );
 
-        // Cria o nome da tarefa como texto não clicável
-        const texto = document.createElement("span");
+        // Cria um botão com o nome da tarefa
+        const texto = document.createElement("button");
+
+        texto.type = "button";
         texto.textContent = tarefa.nome;
         texto.className = "nome-tarefa";
+        texto.dataset.indice = indice;
+
+        // Identifica a ação para leitores de tela
+        texto.setAttribute(
+            "aria-label",
+            (tarefa.concluida
+                ? "Marcar como pendente: "
+                : "Marcar como concluída: ") + tarefa.nome
+        );
+
+
+        // Alterna a conclusão ao clicar no nome
+        texto.addEventListener("click", function () {
+
+            // Inverte o estado da tarefa
+            tarefa.concluida = !tarefa.concluida;
+
+            // Salva e atualiza as listas
+            salvarTarefas();
+            mostrarTarefas();
+
+            // Recupera o foco no nome da tarefa
+            const novoTexto = document.querySelector(
+                '.nome-tarefa[data-indice="' + indice + '"]'
+            );
+
+            if (novoTexto) {
+                novoTexto.focus();
+            }
+
+            // Comunica a alteração ao leitor de tela
+            anunciar(
+                tarefa.concluida
+                    ? "Tarefa concluída: " + tarefa.nome
+                    : "Tarefa pendente: " + tarefa.nome
+            );
+        });
 
         // Cria o botão de editar
         const btnEditar = document.createElement("button");
@@ -244,7 +283,7 @@ function mostrarTarefas() {
         // Cria o botão de excluir
         const btnExcluir = document.createElement("button");
         btnExcluir.type = "button";
-        btnExcluir.textContent = "×";
+        btnExcluir.textContent = "🗑️";
         btnExcluir.className = "btn-excluir";
 
         btnExcluir.setAttribute(
@@ -273,23 +312,43 @@ function mostrarTarefas() {
             );
         });
 
-        // Exclui a tarefa selecionada
+
+        // Solicita confirmação antes de excluir uma tarefa
         btnExcluir.addEventListener("click", function () {
+
+            const confirmarExclusao = window.confirm(
+                'Tem certeza de que deseja excluir a tarefa "' +
+                tarefa.nome + '"?'
+            );
+
+            // Se o usuário cancelar, não exclui a tarefa
+            if (!confirmarExclusao) {
+                return;
+            }
             const nomeRemovido = tarefa.nome;
+
+            // Exclui a tarefa confirmada
             tarefas.splice(indice, 1);
 
+            // Salva e atualiza as listas
             salvarTarefas();
             mostrarTarefas();
 
-            // Direciona o foco para outra tarefa
-            const indiceSeguinte = Math.min(indice, tarefas.length - 1);
-            const proximo = document.querySelector('.btn-editar[data-indice="' + indiceSeguinte + '"]');
+            // Recupera o foco após a exclusão
+            const indiceSeguinte = Math.min(
+                indice,
+                tarefas.length - 1
+            );
+
+            const proximo = document.querySelector(
+                '.btn-editar[data-indice="' + indiceSeguinte + '"]'
+            );
+
             if (proximo) {
                 proximo.focus();
             } else {
                 campoTarefa.focus();
             }
-
             anunciar("Tarefa excluída: " + nomeRemovido);
         });
 

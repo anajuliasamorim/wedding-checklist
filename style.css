@@ -235,18 +235,37 @@ button:hover {
     border-radius: 6px;
 }
 
-/* Nome da tarefa */
+/* Nome da tarefa clicável para concluir */
 .nome-tarefa {
     flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    padding: 4px;
     color: #5c4540;
     text-align: left;
+    font: inherit;
+    cursor: pointer;
     overflow-wrap: anywhere;
-    min-width: 0;
 }
+
+/* Efeito ao passar o mouse */
+.nome-tarefa:hover {
+    background: transparent;
+    color: #815050;
+    text-decoration: underline;
+}
+
+/* Destaque ao navegar com o teclado */
+.nome-tarefa:focus-visible {
+    outline: 3px solid #6b3e85;
+    outline-offset: 3px;
+}
+
 /* Tarefa concluída */
-.concluida {
+.nome-tarefa.concluida {
+    color: #666666;
     text-decoration: line-through;
-    color: gray;
 }
 
 /* Botão para editar informações */
