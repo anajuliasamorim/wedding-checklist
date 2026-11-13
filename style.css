@@ -236,7 +236,7 @@ button:hover {
 
 /* Foco acessível pelo teclado */
 #btn-desfazer:focus-visible {
-    outline: 3px solid #6b3e85;
+    outline: 3px solid #570907;
     outline-offset: 3px;
 }
 
@@ -301,7 +301,7 @@ button:hover {
 
 /* Destaque ao navegar com o teclado */
 .nome-tarefa:focus-visible {
-    outline: 3px solid #6b3e85;
+    outline: 3px solid #570907;
     outline-offset: 3px;
 }
 
@@ -382,7 +382,7 @@ button:hover {
 
 /* Destaque ao navegar pelo teclado */
 .btn-excluir:focus-visible {
-    outline: 3px solid #6b3e85;
+    outline: 3px solid #570907;
     outline-offset: 3px;
 }
 
@@ -479,7 +479,7 @@ button:hover {
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-    outline: 3px solid #6b3e85;
+    outline: 3px solid #570907;
     outline-offset: 3px;
 }
 
