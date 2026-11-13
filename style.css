@@ -208,8 +208,8 @@ button:hover {
 }
 
 #btn-desfazer {
-    padding: 12px 16px;
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
     min-width: 36px;
     min-height: 36px;
     padding: 0;
