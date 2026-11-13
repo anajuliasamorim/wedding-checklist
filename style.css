@@ -483,15 +483,15 @@ textarea:focus-visible {
     outline-offset: 3px;
 }
 
-/* Oculta mensagens visualmente, mas mantém acessíveis para pessoas que utilizam leitores de tela */
-.sr-only {
+/* Oculta visualmente as mensagens de acessibilidade */
+#mensagem-status {
     position: absolute;
     width: 1px;
     height: 1px;
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
 }
