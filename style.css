@@ -290,10 +290,28 @@ button:hover {
     outline-offset: 3px;
 }
 
-/* Excluir tarefa */
+/* Botão de excluir */
 .btn-excluir {
-    background-color: #c96d6d;
-    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #a54a4a;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Tamanho do ícone da lixeira */
+.btn-excluir svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* Contadores */
