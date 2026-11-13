@@ -282,26 +282,11 @@ function mostrarTarefas() {
 
         // Cria o botão de excluir
         const btnExcluir = document.createElement("button");
+
         btnExcluir.type = "button";
-        // Ícone de lixeira branco
-        btnExcluir.innerHTML = ` <svg xmlns="http://www.w3.org/2000/svg" 
-        width="18" 
-        height="18" 
-        viewBox="0 0 24 24" 
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false">
-        <path d="M3 6h18"/>
-        <path d="M8 6V4h8v2"/>
-        <path d="M19 6l-1 14H6L5 6"/>
-        <path d="M10 10v7"/>
-        <path d="M14 10v7"/> </svg> `;
         btnExcluir.className = "btn-excluir";
 
+        // Identifica a ação para leitores de tela
         btnExcluir.setAttribute(
             "aria-label",
             "Excluir tarefa: " + tarefa.nome
@@ -391,15 +376,42 @@ function mostrarTarefas() {
 
 // DESFAZER ÚLTIMA TAREFA
 
+// Solicita confirmação antes de desfazer a última tarefa
 btnDesfazer.addEventListener("click", function () {
-    if (tarefas.length > 0) {
-        const removida = tarefas.pop();
-        salvarTarefas();
-        mostrarTarefas();
-        anunciar("Última tarefa removida: " + removida.nome);
-    } else {
+
+    // Verifica se existem tarefas cadastradas
+    if (tarefas.length === 0) {
         anunciar("Não existem tarefas para remover!");
+        return;
     }
+
+    // Identifica a última tarefa cadastrada
+    const ultimaTarefa = tarefas[tarefas.length - 1];
+
+    // Exibe o pop-up de confirmação do navegador
+    const confirmarDesfazer = window.confirm(
+        'Tem certeza de que deseja desfazer a última tarefa "' +
+        ultimaTarefa.nome + '"?'
+    );
+
+    // Cancela a operação se o usuário escolher Cancelar
+    if (!confirmarDesfazer) {
+        btnDesfazer.focus();
+        return;
+    }
+
+    // Remove a última tarefa do array
+    const removida = tarefas.pop();
+
+    // Salva e atualiza a interface
+    salvarTarefas();
+    mostrarTarefas();
+
+    // Mantém o foco no botão Desfazer
+    btnDesfazer.focus();
+
+    // Comunica a operação ao leitor de tela
+    anunciar("Última tarefa removida: " + removida.nome);
 });
 
 
