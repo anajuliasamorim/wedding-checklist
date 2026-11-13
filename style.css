@@ -257,7 +257,7 @@ button:hover {
     min-height: 44px;
     padding: 4px;
     border-radius: 6px;
-    font-size: 16px; 
+    font-size: 14px; 
     cursor: pointer;
     flex-shrink: 0;
 }
