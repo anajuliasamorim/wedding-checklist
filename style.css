@@ -229,22 +229,43 @@ button:hover {
     border-radius: 6px;
 }
 
-/* Nome clicável da tarefa */
+/* Nome da tarefa */
 .nome-tarefa {
     flex: 1;
-    cursor: pointer;
+    color: #5c4540;
+    text-align: left;
     overflow-wrap: anywhere;
+    min-width: 0;
 }
-
-.nome-tarefa:hover {
-    color: #b78686;
-    text-decoration: underline;
-}
-
 /* Tarefa concluída */
 .concluida {
     text-decoration: line-through;
     color: gray;
+}
+
+/* Botão para editar informações */
+.btn-editar {
+    background-color: #815050;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+    font-size: 22px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Efeito ao passar o mouse */
+.btn-editar:hover {
+    background-color: #694343;
+}
+
+/* Destaque ao navegar pelo teclado */
+.btn-editar:focus-visible {
+    outline: 3px solid #6b3e85;
+    outline-offset: 3px;
 }
 
 /* Excluir tarefa */

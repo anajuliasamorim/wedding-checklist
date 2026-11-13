@@ -219,19 +219,28 @@ function mostrarTarefas() {
         );
 
         // Cria o texto
-        const texto = document.createElement("button");
+        const texto = document.createElement("span");
 
-        texto.type = "button";
         texto.textContent = tarefa.nome;
         texto.className = "nome-tarefa";
-        texto.dataset.indice = indice;
 
-        texto.setAttribute(
+        // Cria o botão para editar informações da tarefa
+        const btnEditar = document.createElement("button");
+
+        btnEditar.type = "button";
+        btnEditar.textContent = "✎";
+        btnEditar.className = "btn-editar";
+        btnEditar.dataset.indice = indice;
+
+        // Identifica o botão para leitores de tela
+        btnEditar.setAttribute(
             "aria-label",
-            "Ver detalhes da tarefa: " + tarefa.nome
+            "Editar informações da tarefa: " + tarefa.nome
         );
-        texto.addEventListener("click", function () {
-            abrirPopup(indice, texto);
+
+        // Abre o pop-up de informações
+        btnEditar.addEventListener("click", function () {
+            abrirPopup(indice, btnEditar);
         });
 
         // Cria o botão de excluir
@@ -277,10 +286,7 @@ function mostrarTarefas() {
 
             // Direciona o foco para outra tarefa
             const indiceSeguinte = Math.min(indice, tarefas.length - 1);
-            const proximo = document.querySelector(
-                '.nome-tarefa[data-indice="' + indiceSeguinte + '"]'
-            );
-
+            const proximo = document.querySelector('.btn-editar[data-indice="' + indiceSeguinte + '"]');
             if (proximo) {
                 proximo.focus();
             } else {
@@ -293,6 +299,7 @@ function mostrarTarefas() {
         // Adiciona os elementos a lista
         item.appendChild(check);
         item.appendChild(texto);
+        item.appendChild(btnEditar);
         item.appendChild(btnExcluir);
 
         // Verifica o status da tarefa
