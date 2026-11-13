@@ -79,7 +79,6 @@ wedding-checklist/
 ├── README.md
 │
 └── img/
-    ├── casamento.jpg
     └── fundo.jpg
 ```
 
