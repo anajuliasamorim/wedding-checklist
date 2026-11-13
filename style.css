@@ -197,8 +197,6 @@ button {
     background-color: #815050;
     color: white;
     border: none;
-    padding: 12px 16px;
-    border-radius: 6px;
     font: inherit;
     cursor: pointer;
 }
@@ -208,8 +206,8 @@ button:hover {
 }
 
 #btn-desfazer {
-    width: 36px;
-    height: 36px;
+    padding: 12px 16px;
+    border-radius: 6px;
     min-width: 36px;
     min-height: 36px;
     padding: 0;
