@@ -19,7 +19,7 @@
             <p class="descricao"> Organize os preparativos do seu casamento.
                 Cadastre tarefas, registre informações
                 importantes e acompanhe cada etapa até o grande dia. </p>
-
+             <!-- Seção para cadastrar novas tarefas -->
             <section class="minhas-tarefas">
                 <h2>Minhas Tarefas</h2>
                 <form id="form-tarefa">
@@ -29,7 +29,9 @@
                 </form>
                 <button type="button" id="btn-desfazer" aria-label="Desfazer última tarefa cadastrada" title="Desfazer última tarefa" > </button>
             </section>
-
+         <!-- Container das duas colunas de tarefas -->
+        <!-- O span guarda o contador, atualizado pelo JS -->
+        <!-- Lista vazia: o JS cria os itens (li) aqui -->
             <div class="colunas">
                 <!-- Pendentes -->
                 <section class="coluna">
@@ -42,13 +44,13 @@
                     <ul id="lista-concluidas"></ul>
                 </section>
             </div>
-
+        <!-- Seção para escolher a data do casamento -->
             <section class="data-casamento">
                 <h2>Quando será o grande dia?</h2>
                 <label for="data-casamento">Escolha a data:</label>
                 <input type="date" id="data-casamento">
             </section>
-
+         <!-- Sugestões de o que fazer em cada etapa -->
             <section class="cronograma">
                 <h2>Cronograma de Preparativos</h2>
                 <p>Confira as sugestões do que fazer em cada etapa da organização do seu casamento.</p>
@@ -56,7 +58,7 @@
             </section>
         </section>
     </main>
-
+    <!-- Popup para cadastrar informações da tarefa -->
     <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="titulo-popup" hidden>
         <div class="popup-conteudo">
             <h2 id="titulo-popup">Informações da tarefa</h2>
@@ -75,6 +77,7 @@
         </div>
     </div>
 
+    <!-- Mensagem só para leitores de tela (sr-only esconde visualmente) -->
     <p id="mensagem-status" class="sr-only" role="status" aria-live="polite"></p>
 
     <script src="script.js"></script>
