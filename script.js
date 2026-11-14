@@ -15,6 +15,7 @@ try {
 let indiceSelecionado = -1;
 
 // ELEMENTOS DO HTML
+// querySelector busca um elemento do HTML usando seletor CSS (# = id); const guarda a referência
 const formulario = document.querySelector("#form-tarefa");
 const campoTarefa = document.querySelector("#nova-tarefa");
 const listaPendentes = document.querySelector("#lista-pendentes");
@@ -53,6 +54,7 @@ function anunciar(mensagem) {
 
 // Função que salva as tarefas no navegador
 function salvarTarefas() {
+// localStorage só guarda texto, então JSON.stringify transforma o array em texto
     localStorage.setItem(
         "tarefas",
         JSON.stringify(tarefas)
@@ -92,6 +94,7 @@ formulario.addEventListener("submit", function (evento) {
     const nome = campoTarefa.value.trim();
     if (nome === "") {
         anunciar("Digite uma tarefa antes de adicionar.");
+// focus() coloca o cursor de volta no campo
         campoTarefa.focus();
         return;
     }
@@ -109,12 +112,14 @@ function abrirPopup(indice, botao) {
     if (!tarefa) return;
 
     botaoAnterior = botao;
-
+    // textContent troca o texto de um elemento
     tituloPopup.textContent = "Informações da tarefa: " + tarefa.nome;
     campoValor.value = tarefa.valor;
     campoPessoa.value = tarefa.pessoa;
     campoObservacoes.value = tarefa.observacoes;
+     // hidden = false mostra o pop-up
     popup.hidden = false;
+     // inert = true desativa a página de trás (sem clique, sem foco e ignorada por leitores de tela)
     conteudoPrincipal.inert = true;
 
     // Direciona o foco ao primeiro campo.
@@ -124,6 +129,7 @@ function abrirPopup(indice, botao) {
 
 // Fecha o pop-up e restaura o foco
 function fecharPopup() {
+ // hidden = true esconde o pop-up
     popup.hidden = true;
 
     // Libera a interação com a página principal
@@ -131,6 +137,7 @@ function fecharPopup() {
     indiceSelecionado = -1;
 
     // Devolve o foco ao botão que abriu o pop-up
+    // isConnected confere se o botão ainda existe na página
     if (botaoAnterior && botaoAnterior.isConnected) {
         botaoAnterior.focus();
     }
@@ -193,9 +200,12 @@ popup.addEventListener("keydown", function (evento) {
 function mostrarTarefas() {
 
     // Limpa as listas antes de atualizar
+    // innerHTML = "" apaga tudo que está dentro do elemento
     listaPendentes.innerHTML = "";
     listaConcluidas.innerHTML = "";
-
+    
+    // Percorre o array
+    // forEach repete a função para cada tarefa; indice é a posição dela
     let pendentes = 0;
     let concluidas = 0;
 
