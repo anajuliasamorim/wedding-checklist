@@ -101,6 +101,39 @@ h2 {
     text-align: center;
 }
 
+/* Organiza o título e a setinha */
+.titulo-cronograma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Estiliza o botão */
+#btn-recolher {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color:  #570907;
+    font-size: 35px;
+}
+
+/* Estiliza a setinha */
+.setinha-cronograma {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Gira a setinha quando recolher */
+#btn-recolher[aria-expanded="false"] .setinha-cronograma {
+    transform: rotate(-90deg);
+}
+
+/* Esconde o conteúdo quando recolhido */
+.conteudo-cronograma[hidden] {
+    display: none;
+}
+
 /* Lista numerada do cronograma */
 #lista-cronograma {
     padding-left: 0;
