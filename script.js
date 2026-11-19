@@ -23,6 +23,7 @@ const listaConcluidas = document.querySelector("#lista-concluidas");
 const contadorPendentes = document.querySelector("#contador-pendentes");
 const contadorConcluidas = document.querySelector("#contador-concluidas");
 const btnDesfazer = document.querySelector("#btn-desfazer");
+const btnRecolher = document.querySelector("#btn-recolher");
 
 // Identifica o conteúdo principal da página
 const conteudoPrincipal = document.querySelector("main");
@@ -587,6 +588,35 @@ function mostrarCronograma() {
         listaCronograma.appendChild(itemEtapa);
     });
 }
+
+//botao de recolher o cronograma
+
+// Busca o conteúdo que será escondido
+const conteudoCronograma = document.querySelector("#conteudo-cronograma");
+
+// Verifica se o botão foi clicado
+btnRecolher.addEventListener("click", function () {
+
+    // Verifica se o cronograma está visível
+    const estaVisivel = !conteudoCronograma.hidden;
+
+    // Inverte a visibilidade
+    conteudoCronograma.hidden = estaVisivel;
+
+    // Atualiza o estado do botão
+    btnRecolher.setAttribute(
+        "aria-expanded",
+        String(!estaVisivel)
+    );
+
+    // Atualiza a descrição do botão
+    btnRecolher.setAttribute(
+        "aria-label",
+        estaVisivel ? "Expandir cronograma" : "Recolher cronograma"
+    );
+
+});
+
 
 // Recupera a data salva anteriormente
 campoData.value = localStorage.getItem("dataCasamento") || "";
