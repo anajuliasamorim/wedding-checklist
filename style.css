@@ -535,21 +535,19 @@ textarea:focus-visible {
 }
 
 #btn-recolher {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #9a6a6a;
-  background-color: white;
-  color: #9a6a6a;
-  font-size: 16px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  background-color: #86494c;
+  color: white;
+  font-size: 14px;
   cursor: pointer;
 }
 
 #btn-recolher:hover {
-  background-color: #9a6a6a;
-  color: white;
+  opacity: 0.85;
 }
-
 .conteudo-cronograma.recolhido {
   display: none;
 }
