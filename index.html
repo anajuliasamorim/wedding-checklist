@@ -27,6 +27,10 @@
                     <input type="text" id="nova-tarefa" placeholder="Ex.: Contratar fotógrafo" required>
                     <button type="submit">Adicionar</button>
                 </form>
+                <!-- Botão de desfazer: fica sem texto porque o ícone da seta
+     é colocado pelo CSS (veja #btn-desfazer no style.css).
+     aria-label = texto que o leitor de tela fala
+     title = texto que aparece ao parar o mouse em cima -->
                 <button type="button" id="btn-desfazer" aria-label="Desfazer última tarefa cadastrada" title="Desfazer última tarefa" > </button>
             </section>
          <!-- Container das duas colunas de tarefas -->
@@ -64,7 +68,12 @@
             </section>
         </section>
     </main>
-    <!-- Popup para cadastrar informações da tarefa -->
+    <!-- Popup para cadastrar informações da tarefa
+     role="dialog" = avisa ao leitor de tela que isso é uma janelinha
+     aria-modal="true" = enquanto está aberta, o resto da página fica bloqueado
+     aria-labelledby = usa o título (h2) como nome da janela
+     hidden = começa escondido; o JavaScript mostra quando clicar no lápis -->
+<div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="titulo-popup" hidden>
     <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="titulo-popup" hidden>
         <div class="popup-conteudo">
             <h2 id="titulo-popup">Informações da tarefa</h2>
