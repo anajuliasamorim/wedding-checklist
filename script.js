@@ -614,7 +614,14 @@ btnRecolher.addEventListener("click", function () {
         "aria-label",
         estaVisivel ? "Expandir cronograma" : "Recolher cronograma"
     );
-
+    // Troca a seta do botão
+    if (estaVisivel) {
+        btnRecolher.textContent = "▼";
+        btnRecolher.title = "Expandir cronograma";
+    } else {
+        btnRecolher.textContent = "▲";
+        btnRecolher.title = "Recolher cronograma";
+    }
 });
 
 
