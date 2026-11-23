@@ -429,7 +429,7 @@ button:hover {
 
 /* Fundo do pop-up */
 .popup {
-    display: flex;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
